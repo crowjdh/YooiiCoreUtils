@@ -71,7 +71,7 @@ public class KeyboardUtils {
     }
 
     private static boolean shouldEnable() {
-        return Build.VERSION.SDK_INT >= 19;
+        return Build.VERSION.SDK_INT >= 17;
     }
 
     private ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener =
