@@ -1,8 +1,5 @@
 package com.yooiistudios.coreutils.lab;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-
 /**
  * Created by Dongheyon Jeong in AndroidPlayground from Yooii Studios Co., LTD. on 15. 8. 24.
  *
@@ -32,28 +29,29 @@ public class CipherUtils {
 
     public static String dataToBytesRepresentation(String key, String data) throws Exception {
         String swappedData = swap(key.getBytes(), data, 5);
-        byte[] encrypted = encrypt(key.getBytes(), swappedData.getBytes());
-        return CipherUtils.toArrayRepresentation(encrypted);
+//        byte[] encrypted = encrypt(key.getBytes(), swappedData.getBytes());
+        return toArrayRepresentation(swappedData.getBytes());
     }
 
     public static String bytesToData(String key, byte[] bytes) throws Exception {
-        byte[] decrypted = CipherUtils.decrypt(key.getBytes(), bytes);
-        return CipherUtils.unswap(key.getBytes(), new String(decrypted), 5);
+//        byte[] decrypted = CipherUtils.decrypt(key.getBytes(), bytes);
+        return CipherUtils.unswap(key.getBytes(), new String(bytes), 5);
     }
 
-    private static byte[] encrypt(byte[] key, byte[] clear) throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(toBytesKey(key), "AES");
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-        return cipher.doFinal(clear);
-    }
-
-    private static byte[] decrypt(byte[] key, byte[] encrypted) throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(toBytesKey(key), "AES");
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-        return cipher.doFinal(encrypted);
-    }
+    // TODO: Error found on 4.1.1 GS3(java.security.InvalidKeyException: no IV set when one expected)
+//    private static byte[] encrypt(byte[] key, byte[] clear) throws Exception {
+//        SecretKeySpec skeySpec = new SecretKeySpec(toBytesKey(key), "AES");
+//        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+//        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+//        return cipher.doFinal(clear);
+//    }
+//
+//    private static byte[] decrypt(byte[] key, byte[] encrypted) throws Exception {
+//        SecretKeySpec skeySpec = new SecretKeySpec(toBytesKey(key), "AES");
+//        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+//        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+//        return cipher.doFinal(encrypted);
+//    }
 
     private static String swap(byte[] keyBytes, String data) {
         return swap(keyBytes, data, DEFAULT_SWAP_COUNT);
