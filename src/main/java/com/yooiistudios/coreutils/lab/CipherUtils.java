@@ -27,13 +27,13 @@ public class CipherUtils {
         throw new AssertionError("You MUST NOT create the instance of this class!!");
     }
 
-    public static String dataToBytesRepresentation(String key, String data) throws Exception {
+    public static String dataToBytesRepresentation(String key, String data) {
         String swappedData = swap(key.getBytes(), data, 5);
 //        byte[] encrypted = encrypt(key.getBytes(), swappedData.getBytes());
         return toArrayRepresentation(swappedData.getBytes());
     }
 
-    public static String bytesToData(String key, byte[] bytes) throws Exception {
+    public static String bytesToData(String key, byte[] bytes) {
 //        byte[] decrypted = CipherUtils.decrypt(key.getBytes(), bytes);
         return CipherUtils.unswap(key.getBytes(), new String(bytes), 5);
     }
