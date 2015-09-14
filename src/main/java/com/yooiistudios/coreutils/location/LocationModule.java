@@ -75,7 +75,7 @@ public class LocationModule implements LocationListener
         ResultCallback<LocationSettingsResult> {
     public interface OnLocationEventListener {
         Activity onResolutionRequired();
-        void onLocationChanged();
+        void onLocationChanged(LatLng latLng);
     }
 
     private enum LocationUpdatePolicy {
@@ -279,6 +279,17 @@ public class LocationModule implements LocationListener
         return fragment;
     }
 
+    private void notifyCurrentLocation() {
+        if (!mLocationUpdatePolicy.equals(LocationUpdatePolicy.NEVER) && mListener != null) {
+            try {
+                mListener.onLocationChanged(getCurrentLatLng());
+                if (mLocationUpdatePolicy.equals(LocationUpdatePolicy.ONE_SHOT)) {
+                    mLocationUpdatePolicy = LocationUpdatePolicy.NEVER;
+                }
+            } catch (LocationException ignored) { }
+        }
+    }
+
     private static void checkFragmentManagerNotNull(FragmentManager fm) {
         if (fm == null) {
             throw new IllegalArgumentException("FragmentManager MUST NOT be null!!");
@@ -301,6 +312,10 @@ public class LocationModule implements LocationListener
 
         // 옵션이 불충분하더라도 최근에 가져온 위치가 있다면 우선 캐싱
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        if (mCurrentLocation != null) {
+            notifyCurrentLocation();
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -328,13 +343,7 @@ public class LocationModule implements LocationListener
     @Override
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
-
-        if (!mLocationUpdatePolicy.equals(LocationUpdatePolicy.NEVER) && mListener != null) {
-            mListener.onLocationChanged();
-            if (mLocationUpdatePolicy.equals(LocationUpdatePolicy.ONE_SHOT)) {
-                mLocationUpdatePolicy = LocationUpdatePolicy.NEVER;
-            }
-        }
+        notifyCurrentLocation();
     }
 
     // LocationSettingsResult 의 callback
