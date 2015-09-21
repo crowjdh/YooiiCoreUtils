@@ -227,11 +227,13 @@ public class LocationModule implements LocationListener
     }
 
     private void showErrorDialog(int errorCode) {
-        ErrorDialogFragment dialogFragment = new ErrorDialogFragment();
-        Bundle args = new Bundle();
-        args.putInt(ErrorDialogFragment.DIALOG_ERROR, errorCode);
-        dialogFragment.setArguments(args);
-        dialogFragment.show(mFragmentManager, "error_dialog");
+        if (mFragmentManager != null) {
+            ErrorDialogFragment dialogFragment = new ErrorDialogFragment();
+            Bundle args = new Bundle();
+            args.putInt(ErrorDialogFragment.DIALOG_ERROR, errorCode);
+            dialogFragment.setArguments(args);
+            dialogFragment.show(mFragmentManager, "error_dialog");
+        }
     }
 
     private static boolean isResolvingError(FragmentManager fm) {
