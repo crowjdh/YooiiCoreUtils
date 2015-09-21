@@ -191,7 +191,12 @@ public class LocationModule implements LocationListener
         return curLatLng;
     }
 
-    public float calculateDistance(LatLng sourceLatLng, LatLng destinationLatLng) {
+    public static float distanceInKmBetween(LatLng currentLatLng, LatLng sendLatLng) {
+        float distanceMeter = distanceBetween(currentLatLng, sendLatLng);
+        return distanceMeter / 1000;
+    }
+
+    public static float distanceBetween(LatLng sourceLatLng, LatLng destinationLatLng) {
         Location locationA = new Location("point A");
         locationA.setLatitude(sourceLatLng.latitude);
         locationA.setLongitude(sourceLatLng.longitude);
@@ -201,11 +206,6 @@ public class LocationModule implements LocationListener
         locationB.setLongitude(destinationLatLng.longitude);
 
         return locationA.distanceTo(locationB);
-    }
-
-    public float calculateDistanceInKilometers(LatLng currentLatLng, LatLng sendLatLng) {
-        float distanceMeter = calculateDistance(currentLatLng, sendLatLng);
-        return distanceMeter / 1000;
     }
 
     public boolean handleActivityResult(int requestCode, int responseCode, Intent intent) {
