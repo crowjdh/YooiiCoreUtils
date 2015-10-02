@@ -196,6 +196,11 @@ public class LocationModule implements LocationListener
         return distanceMeter / 1000;
     }
 
+    public static float distanceInMilesBetween(LatLng currentLatLng, LatLng sendLatLng) {
+        float distanceMeter = distanceBetween(currentLatLng, sendLatLng);
+        return distanceMeter * 0.000621371f;
+    }
+
     public static float distanceBetween(LatLng sourceLatLng, LatLng destinationLatLng) {
         Location locationA = new Location("point A");
         locationA.setLatitude(sourceLatLng.latitude);
