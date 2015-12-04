@@ -332,8 +332,10 @@ public class LocationModule implements LocationListener
             // ignored
         } else if (connectionResult.hasResolution()) {
             try {
-                if (mListener != null) {
-                    connectionResult.startResolutionForResult(mListener.onResolutionRequired(), RC_RESOLUTION);
+
+                Activity activity;
+                if (mListener != null && (activity = mListener.onResolutionRequired()) != null) {
+                    connectionResult.startResolutionForResult(activity, RC_RESOLUTION);
                     saveResolvingErrorState();
                 }
             } catch (IntentSender.SendIntentException e) {
