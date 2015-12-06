@@ -332,7 +332,6 @@ public class LocationModule implements LocationListener
             // ignored
         } else if (connectionResult.hasResolution()) {
             try {
-
                 Activity activity;
                 if (mListener != null && (activity = mListener.onResolutionRequired()) != null) {
                     connectionResult.startResolutionForResult(activity, RC_RESOLUTION);
@@ -363,10 +362,11 @@ public class LocationModule implements LocationListener
             case LocationSettingsStatusCodes.SUCCESS:
                 break;
             case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                if (mListener != null) {
+                Activity activity;
+                if (mListener != null && (activity = mListener.onResolutionRequired()) != null) {
                     try {
                         saveResolvingErrorState();
-                        status.startResolutionForResult(mListener.onResolutionRequired(), RC_RESOLUTION);
+                        status.startResolutionForResult(activity, RC_RESOLUTION);
                     } catch (IntentSender.SendIntentException e) {
                         e.printStackTrace();
                     }
