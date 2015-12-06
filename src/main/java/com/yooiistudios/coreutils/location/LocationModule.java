@@ -281,7 +281,8 @@ public class LocationModule implements LocationListener
 
         if (fragment == null) {
             fragment = new ResolvingErrorStateFragment();
-            fm.beginTransaction().add(fragment, TAG_FRAGMENT_RESOLVING_ERROR_STATE).commit();
+            fm.beginTransaction().add(fragment, TAG_FRAGMENT_RESOLVING_ERROR_STATE)
+                    .commitAllowingStateLoss();
         }
         return fragment;
     }
