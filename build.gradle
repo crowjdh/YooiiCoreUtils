@@ -17,8 +17,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 14
-        versionName "1.0.14"
+        versionCode 15
+        versionName "1.0.15"
     }
     buildTypes {
         debug {
@@ -33,7 +33,6 @@ android {
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
     compile ('com.android.support:appcompat-v7:22.2.1') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
